@@ -28,8 +28,8 @@ data:
             
             proxy_pass http://backend;
               
-            # add_header Cache-Control "max-age=0, no-cache, no-store, must-revalidate";
-            # add_header Pragma "no-cache";
+            add_header Cache-Control "max-age=0, no-cache, no-store, must-revalidate";
+            add_header Pragma "no-cache";
         }
 
         #error_page  404              /404.html;
