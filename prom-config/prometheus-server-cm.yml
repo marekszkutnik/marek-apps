@@ -141,7 +141,7 @@ data:
       - action: replace
         source_labels:
         - exported_name
-        regex: k8s_nginx_(.*)(-[^-]{10})(-[^-]{5})(_marek)(-apps)(_[^-]{8})(-[^-]{4})(-[^-]{4})(-[^-]{4})(-[^-]{12})_0
+        regex: k8s_nginx_(.*)(-[^-]{8,10})(-[^-]{5})(_marek)(-apps)(_[^-]{8})(-[^-]{4})(-[^-]{4})(-[^-]{4})(-[^-]{12})_0
         replacement: $1
         target_label: deployment
       scheme: https
