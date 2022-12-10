@@ -1,0 +1,174 @@
+{
+	"alerting_rules.yml": "{}
+		",
+	"alerts": "{}
+		",
+	"prometheus.yml": "global:
+		  evaluation_interval: 1m
+		  scrape_interval: 5s
+		  scrape_timeout: 4s
+		rule_files:
+		- /etc/config/recording_rules.yml
+		- /etc/config/alerting_rules.yml
+		- /etc/config/rules
+		- /etc/config/alerts
+		scrape_configs:
+		- job_name: prometheus
+		  static_configs:
+		  - targets:
+		    - localhost:9090
+		- bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+		  job_name: kubelet-metrics
+		  kubernetes_sd_configs:
+		  - role: node
+		  relabel_configs:
+		  - action: labelmap
+		    regex: __meta_kubernetes_node_label_(.+)
+		  - replacement: kubernetes.default.svc:443
+		    target_label: __address__
+		  - regex: (.+)
+		    replacement: /api/v1/nodes/${1}/proxy/metrics
+		    source_labels:
+		    - __meta_kubernetes_node_name
+		    target_label: __metrics_path__
+		  scheme: https
+		  tls_config:
+		    ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+		- job_name: node-exporter
+		  kubernetes_sd_configs:
+		  - role: pod
+		  relabel_configs:
+		  - action: labelmap
+		    regex: __meta_kubernetes_pod_label_(.+)
+		  - action: keep
+		    regex: .*node-exporter.*
+		    source_labels:
+		    - __meta_kubernetes_pod_name
+		  - action: keep
+		    regex: .*:9100
+		    source_labels:
+		    - __address__
+		  - action: replace
+		    source_labels:
+		    - __meta_kubernetes_pod_node_name
+		    target_label: instance
+		  - action: replace
+		    source_labels:
+		    - __meta_kubernetes_pod_name
+		    target_label: kubernetes_pod_name
+		  scheme: https
+		  tls_config:
+		    ca_file: /opt/prometheus/certs/CA/cert.pem
+		    cert_file: /opt/prometheus/certs/prometheus/cert.pem
+		    key_file: /opt/prometheus/certs/prometheus/key.pem
+		    server_name: node_exporter
+		- job_name: otel-collector
+		  scheme: https
+		  scrape_interval: 10s
+		  static_configs:
+		  - targets:
+		    - otel-collector.telemetry.svc:9107
+		  - targets:
+		    - otel-collector.telemetry.svc:9105
+		  tls_config:
+		    ca_file: /opt/prometheus/certs/CA/cert.pem
+		    cert_file: /opt/prometheus/certs/prometheus/cert.pem
+		    key_file: /opt/prometheus/certs/prometheus/key.pem
+		    server_name: otel_collector
+		- job_name: collectd
+		  kubernetes_sd_configs:
+		  - role: pod
+		  relabel_configs:
+		  - action: labelmap
+		    regex: __meta_kubernetes_pod_label_(.+)
+		  - action: keep
+		    regex: collectd.*
+		    source_labels:
+		    - __meta_kubernetes_pod_name
+		  - action: keep
+		    regex: .*:9103
+		    source_labels:
+		    - __address__
+		  - action: replace
+		    source_labels:
+		    - __meta_kubernetes_pod_node_name
+		    target_label: instance
+		  - action: replace
+		    source_labels:
+		    - __meta_kubernetes_pod_name
+		    target_label: kubernetes_pod_name
+		  scheme: https
+		  tls_config:
+		    ca_file: /opt/prometheus/certs/CA/cert.pem
+		    cert_file: /opt/prometheus/certs/prometheus/cert.pem
+		    key_file: /opt/prometheus/certs/prometheus/key.pem
+		    server_name: collectd
+		- job_name: cadvisor
+		  kubernetes_sd_configs:
+		  - role: pod
+		  relabel_configs:
+		  - action: labelmap
+		    regex: __meta_kubernetes_pod_label_(.+)
+		  - action: keep
+		    regex: cadvisor.*
+		    source_labels:
+		    - __meta_kubernetes_pod_name
+		  - action: keep
+		    regex: .*:9105
+		    source_labels:
+		    - __address__
+		  - action: replace
+		    source_labels:
+		    - __meta_kubernetes_pod_node_name
+		    target_label: instance
+		  - action: replace
+		    source_labels:
+		    - __meta_kubernetes_pod_name
+		    target_label: kubernetes_pod_name
+		  scheme: https
+		  tls_config:
+		    ca_file: /opt/prometheus/certs/CA/cert.pem
+		    cert_file: /opt/prometheus/certs/prometheus/cert.pem
+		    key_file: /opt/prometheus/certs/prometheus/key.pem
+		    server_name: cadvisor
+		- job_name: nginx
+			scheme: http
+		  scrape_interval: 10s
+		  static_configs:
+		  - targets:
+		    - nginx-srv-hpa-metrics.marek-apps.svc:9113/metrics
+		- job_name: nginxplus
+			scheme: http
+		  scrape_interval: 10s
+		  static_configs:
+		  - targets:
+		    - nginxplus-srv-hpa-metrics.marek-apps.svc:9113/metrics
+		alerting:
+		  alertmanagers:
+		  - kubernetes_sd_configs:
+		      - role: pod
+		    tls_config:
+		      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+		    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+		    relabel_configs:
+		    - source_labels: [__meta_kubernetes_namespace]
+		      regex: telemetry
+		      action: keep
+		    - source_labels: [__meta_kubernetes_pod_label_app]
+		      regex: prometheus
+		      action: keep
+		    - source_labels: [__meta_kubernetes_pod_label_component]
+		      regex: alertmanager
+		      action: keep
+		    - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_probe]
+		      regex: .*
+		      action: keep
+		    - source_labels: [__meta_kubernetes_pod_container_port_number]
+		      regex: \"9093\"
+		      action: keep
+		",
+	"recording_rules.yml": "{}
+		",
+	"rules": "{}
+		"
+}

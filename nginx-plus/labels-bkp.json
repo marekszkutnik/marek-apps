@@ -1,0 +1,40 @@
+# POD
+container_cpu_usage_seconds_total{
+cpu="total", 
+id="/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podee2ca921_2d4f_4c95_8789_ea0eee8ff519.slice/docker-00448e3d5a6a82e11727160c30881f861da9197393f91e3d8687824cae33da6a.scope", 
+image="k8s.gcr.io/pause:3.2", 
+instance="10.245.151.196:9105", 
+job="cadvisor", 
+name="k8s_POD_nginxplus-server-hpa-5cbd6c5c79-2zmw7_marek-apps_ee2ca921-2d4f-4c95-8789-ea0eee8ff519_0"}
+
+relabel_configs:
+- action: labelmap
+  regex: __meta_kubernetes_pod_label_(.+)
+- action: keep
+  regex: cadvisor.*
+  source_labels:
+  - __meta_kubernetes_pod_name
+- action: keep
+  regex: .*:9105
+  source_labels:
+  - __address__
+- action: replace
+  source_labels:
+  - __meta_kubernetes_pod_node_name
+  target_label: instance
+- action: replace
+  source_labels:
+  - __meta_kubernetes_pod_name
+  target_label: kubernetes_pod_name
+
+# DEFAULT
+container_cpu_usage_seconds_total{controller_revision_hash="56969868fb", 
+cpu="total", 
+exported_name="k8s_POD_nginxplus-server-hpa-5cbd6c5c79-2zmw7_marek-apps_ee2ca921-2d4f-4c95-8789-ea0eee8ff519_0", 
+id="/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podee2ca921_2d4f_4c95_8789_ea0eee8ff519.slice/docker-00448e3d5a6a82e11727160c30881f861da9197393f91e3d8687824cae33da6a.scope", 
+image="k8s.gcr.io/pause:3.2", 
+instance="k8s-mgr-worker-01", 
+job="cadvisor", 
+kubernetes_pod_name="cadvisor-sjtv4", 
+name="cadvisor", 
+pod_template_generation="1"}
