@@ -1,8 +1,8 @@
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: nginx-server-hpa
-  namespace: apps
+  namespace: marek-apps
 spec:
   minReplicas: 1
   maxReplicas: 4
@@ -16,10 +16,4 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 20
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 20
+        averageUtilization: 1
