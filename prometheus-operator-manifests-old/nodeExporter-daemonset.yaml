@@ -28,7 +28,7 @@ spec:
       containers:
       - args:
         - --web.listen-address=127.0.0.1:9100
-        - --path.sysfs=/host/sys
+        # - --path.sysfs=/host/sys
         - --path.rootfs=/host/root
         - --no-collector.wifi
         - --no-collector.hwmon
@@ -54,11 +54,11 @@ spec:
           readOnlyRootFilesystem: true
         volumeMounts:
         - mountPath: /host/sys
-          mountPropagation: HostToContainer
+          # mountPropagation: HostToContainer
           name: sys
           readOnly: true
         - mountPath: /host/root
-          mountPropagation: HostToContainer
+          # mountPropagation: HostToContainer
           name: root
           readOnly: true
       - args:
