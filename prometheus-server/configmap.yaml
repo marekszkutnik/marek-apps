@@ -127,6 +127,14 @@ data:
           regex: (.+)
           target_label: __metrics_path__
           replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+          
+        metric_relabel_configs:
+        - action: replace
+          source_labels:
+          - pod
+          regex: (nginx-server-\w+)(.*)
+          replacement: $1
+          target_label: deployment
       
       - job_name: 'kubernetes-service-endpoints'
 
