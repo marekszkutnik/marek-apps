@@ -159,13 +159,6 @@ data:
           action: replace
           target_label: kubernetes_name
           
-      - job_name: nginx-server-hpa
-        scheme: http
-        scrape_interval: 10s
-        static_configs:
-        - targets: ['nginx-srv-hpa-metrics.marek-apps.svc:9113']
-          labels:
-            app: nginx-hpa
       - job_name: reverse-proxy-hpa
         scheme: http
         scrape_interval: 10s
@@ -173,13 +166,7 @@ data:
         - targets: ['reverse-proxy-hpa-metrics.marek-apps.svc:9113']
           labels:
             app: nginx-hpa
-      - job_name: nginx-server-kmn
-        scheme: http
-        scrape_interval: 10s
-        static_configs:
-        - targets: ['nginx-srv-kmn-metrics.marek-apps.svc:9113']
-          labels:
-            app: nginx-kmn
+
       - job_name: reverse-proxy-kmn
         scheme: http
         scrape_interval: 10s
@@ -187,13 +174,7 @@ data:
         - targets: ['reverse-proxy-kmn-metrics.marek-apps.svc:9113']
           labels:
             app: nginx-kmn
-      - job_name: nginx-server-kral
-        scheme: http
-        scrape_interval: 10s
-        static_configs:
-        - targets: ['nginx-srv-kral-metrics.marek-apps.svc:9113']
-          labels:
-            app: nginx-kral
+
       - job_name: reverse-proxy-kral
         scheme: http
         scrape_interval: 10s
