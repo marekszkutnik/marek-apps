@@ -11,16 +11,22 @@ spec:
     envSourceContainerName: nginx
   pollingInterval:  30
   cooldownPeriod:   300
-  minReplicaCount:  1
+  minReplicaCount:  2
   maxReplicaCount:  4
+  advanced:
+    restoreToOriginalReplicaCount: true
   triggers:
-  - type: prometheus-criterial-minkowski-norm
+  - type: prometheus-minkowski-norm
     metadata:
-      serverAddress: http://prometheus-k8s.monitoring.svc:9090
-      metricName: prometheus-multicriterial-minkowski-norm-test
+      serverAddress: http://prometheus-service.monitoring.svc:8080
+      metricName: prometheus-minkowski-norm-test
+      numOfParams: '3'
       queryParam1: '1000'
       threshold1: '1'
-      query1: sum by (pod) (container_cpu_system_seconds_total{pod="nginx-server-kmn-5cb88966c9-wz4xl"})
+      query1: sum by (deployment) (container_cpu_usage_seconds_total{namespace="marek-apps", deployment="nginx-server-kmn", container="nginx"})
       queryParam2: '1000'
       threshold2: '1'
-      query2: sum by (pod) (container_memory_usage_bytes{pod="nginx-server-kmn-5cb88966c9-wz4xl"})
+      query2: sum by (deployment) (container_memory_usage_bytes{namespace="marek-apps", deployment="nginx-server-kmn", container="nginx"})
+      queryParam3: '1000'
+      threshold3: '1'
+      query3: sum by (deployment) (container_memory_usage_bytes{namespace="marek-apps", deployment="nginx-server-kmn", container="nginx"})
