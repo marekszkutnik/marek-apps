@@ -20,13 +20,13 @@ spec:
     metadata:
       serverAddress: http://prometheus-service.monitoring.svc:8080
       metricName: prometheus-minkowski-norm-test
-      numOfParams: '3'
+      numOfParams: '10'
       queryParam1: '1000'
       threshold1: '1'
-      query1: sum by (deployment) (container_cpu_usage_seconds_total{namespace="marek-apps", deployment="nginx-server-kmn", container="nginx"})
+      query1: absent(up{job="kube-state-metrics"} == 1)
       queryParam2: '1000'
       threshold2: '1'
-      query2: sum by (deployment) (container_memory_usage_bytes{namespace="marek-apps", deployment="nginx-server-kmn", container="nginx"})
+      query2: absent(up{job="kube-state-metrics"} == 1)
       queryParam3: '1000'
       threshold3: '1'
-      query3: sum by (deployment) (container_memory_usage_bytes{namespace="marek-apps", deployment="nginx-server-kmn", container="nginx"})
+      query3: absent(up{job="kube-state-metrics"} == 1)
