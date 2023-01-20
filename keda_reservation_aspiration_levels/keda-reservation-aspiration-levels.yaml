@@ -11,8 +11,8 @@ spec:
     envSourceContainerName: nginx
   pollingInterval:  30
   cooldownPeriod:   300
-  minReplicaCount:  2
-  maxReplicaCount:  7
+  minReplicaCount:  1
+  maxReplicaCount:  5
   advanced:
     restoreToOriginalReplicaCount: true
   triggers:
@@ -20,6 +20,7 @@ spec:
     metadata:
       serverAddress: http://prometheus-service.monitoring.svc:8080
       metricName: prometheus-multicriterial-ral-test
-      query1: sum by (deployment) (container_cpu_usage_seconds_total{namespace="marek-apps", deployment="nginx-server-kmn", container="nginx"})
-      query2: sum by (deployment) (container_memory_usage_bytes{namespace="marek-apps", deployment="nginx-server-kmn", container="nginx"})
-      query3: sum by (deployment) (container_memory_usage_bytes{namespace="marek-apps", deployment="nginx-server-kmn", container="nginx"})
+      query1: absent(up{job="kube-state-metrics"} == 1)
+      query2: absent(up{job="kube-state-metrics"} == 1)
+      query3: absent(up{job="kube-state-metrics"} == 1)
+      query4: count(container_memory_usage_bytes{namespace="marek-apps", deployment=~"nginx-server-.*",container="POD"})
