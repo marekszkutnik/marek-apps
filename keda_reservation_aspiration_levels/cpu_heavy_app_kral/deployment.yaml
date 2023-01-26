@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-heavy-app-kral
+  namespace: marek-apps
+spec:
+  selector:
+    matchLabels:
+      app: cpu-heavy-app-kral
+  template:
+    metadata:
+      labels:
+        app: cpu-heavy-app-kral
+    spec:
+      containers:
+        - name: cpu-heavy-app
+          image: marekszkutnik/cpu-heavy-app
+          ports:
+            - name: main
+              containerPort: 9000
+            - name: actuator
+              containerPort: 9001
