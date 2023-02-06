@@ -109,6 +109,7 @@ data:
 
       - job_name: 'kubernetes-cadvisor'
 
+        scrape_interval: 1s
         scheme: https
 
         tls_config:
@@ -169,7 +170,7 @@ data:
           
       - job_name: reverse-proxy-hpa
         scheme: http
-        scrape_interval: 10s
+        scrape_interval: 1s
         static_configs:
         - targets: ['reverse-proxy-hpa-metrics.marek-apps.svc:9113']
           labels:
@@ -177,7 +178,7 @@ data:
 
       - job_name: reverse-proxy-kmn
         scheme: http
-        scrape_interval: 10s
+        scrape_interval: 1s
         static_configs:
         - targets: ['reverse-proxy-kmn-metrics.marek-apps.svc:9113']
           labels:
@@ -185,7 +186,7 @@ data:
 
       - job_name: reverse-proxy-kral
         scheme: http
-        scrape_interval: 10s
+        scrape_interval: 1s
         static_configs:
         - targets: ['reverse-proxy-kral-metrics.marek-apps.svc:9113']
           labels:
