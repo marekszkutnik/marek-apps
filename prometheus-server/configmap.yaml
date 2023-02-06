@@ -133,7 +133,7 @@ data:
         - action: replace
           source_labels:
           - pod
-          regex: (nginx-server-\w+)(.*)
+          regex: (cpu-heavy-app-\w+)(.*)
           replacement: $1
           target_label: deployment
       
