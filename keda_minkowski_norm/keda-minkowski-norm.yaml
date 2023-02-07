@@ -1,18 +1,18 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: nginx-server-kmn-keda
+  name: cpu-heavy-app-kmn-keda
   namespace: marek-apps
 spec:
   scaleTargetRef:
     apiVersion:    apps/v1
     kind:          Deployment
-    name:          nginx-server-kmn
-    envSourceContainerName: nginx
+    name:          cpu-heavy-app-kmn
+    envSourceContainerName: cpu-heavy-app
   pollingInterval:  30
   cooldownPeriod:   300
-  minReplicaCount:  2
-  maxReplicaCount:  5
+  minReplicaCount:  1
+  maxReplicaCount:  10
   advanced:
     restoreToOriginalReplicaCount: true
   triggers:
