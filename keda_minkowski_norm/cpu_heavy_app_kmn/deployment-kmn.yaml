@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-heavy-app-kmn
+  namespace: marek-apps
+spec:
+  selector:
+    matchLabels:
+      app: cpu-heavy-app-kmn
+  template:
+    metadata:
+      labels:
+        app: cpu-heavy-app-kmn
+    spec:
+      containers:
+        - name: cpu-heavy-app
+          image: marekszkutnik/cpu-heavy-app:nocache11
+          ports:
+            - name: main
+              containerPort: 9000
+            - name: actuator
+              containerPort: 9001
+          resources:
+            requests:
+              memory: "400Mi"
+              cpu: "2"
+            limits:
+              memory: "400Mi"
+              cpu: "2"
+          livenessProbe:
+            httpGet:
+              path: /primes/1
+              port: 9000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
