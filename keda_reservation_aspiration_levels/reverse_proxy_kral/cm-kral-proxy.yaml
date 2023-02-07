@@ -11,7 +11,8 @@ data:
     upstream backend {
         zone http_backend 64k;
         
-        server nginx-srv-kral;
+        # server nginx-srv-kral;
+        server cpu-heavy-app-kral:9000;
     }
     
     server {
