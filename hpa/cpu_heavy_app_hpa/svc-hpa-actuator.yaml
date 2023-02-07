@@ -4,11 +4,10 @@ metadata:
   name: cpu-heavy-app-actuator-hpa
   namespace: marek-apps
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: cpu-heavy-app-hpa
   ports:
     - protocol: TCP
       port: 9001
       targetPort: 9001
-      nodePort: 31133
