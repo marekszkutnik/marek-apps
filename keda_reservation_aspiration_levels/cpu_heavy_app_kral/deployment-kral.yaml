@@ -14,9 +14,22 @@ spec:
     spec:
       containers:
         - name: cpu-heavy-app
-          image: marekszkutnik/cpu-heavy-app
+          image: marekszkutnik/cpu-heavy-app:nocache11
           ports:
             - name: main
               containerPort: 9000
             - name: actuator
               containerPort: 9001
+          resources:
+            requests:
+              memory: "400Mi"
+              cpu: "2"
+            limits:
+              memory: "400Mi"
+              cpu: "2"
+          livenessProbe:
+            httpGet:
+              path: /primes/1
+              port: 9000
+            initialDelaySeconds: 5
+            periodSeconds: 10
