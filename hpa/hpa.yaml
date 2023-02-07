@@ -1,19 +1,25 @@
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: nginx-server-hpa
+  name: cpu-heavy-app-hpa
   namespace: marek-apps
 spec:
   minReplicas: 1
-  maxReplicas: 4
+  maxReplicas: 10
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: nginx-server-hpa
+    name: cpu-heavy-app-hpa
   metrics:
   - type: Resource
     resource:
       name: cpu
       target:
-        type: Utilization
-        averageUtilization: 1
+        type: averageValue
+        averageValue: 1500m
+  - type: Resource
+    resource:
+      name: mameory
+      target:
+        type: averageValue
+        averageValue: 300Mi    
