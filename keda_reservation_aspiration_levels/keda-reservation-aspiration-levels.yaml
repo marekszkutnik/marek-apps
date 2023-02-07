@@ -9,7 +9,7 @@ spec:
     kind:          Deployment
     name:          cpu-heavy-app-kral
     envSourceContainerName: cpu-heavy-app
-  pollingInterval:  30
+  pollingInterval:  15
   cooldownPeriod:   300
   minReplicaCount:  1
   maxReplicaCount:  9
