@@ -1,18 +1,18 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: nginx-server-kral-keda
+  name: cpu-heavy-app-kral-keda
   namespace: marek-apps
 spec:
   scaleTargetRef:
     apiVersion:    apps/v1
     kind:          Deployment
-    name:          nginx-server-kral
-    envSourceContainerName: nginx
+    name:          cpu-heavy-app-kral
+    envSourceContainerName: cpu-heavy-app
   pollingInterval:  30
   cooldownPeriod:   300
   minReplicaCount:  1
-  maxReplicaCount:  5
+  maxReplicaCount:  10
   advanced:
     restoreToOriginalReplicaCount: true
   triggers:
@@ -20,7 +20,14 @@ spec:
     metadata:
       serverAddress: http://prometheus-service.monitoring.svc:8080
       metricName: prometheus-multicriterial-ral-test
-      query1: absent(up{job="kube-state-metrics"} == 1)
-      query2: absent(up{job="kube-state-metrics"} == 1)
-      query3: absent(up{job="kube-state-metrics"} == 1)
-      query4: count(container_memory_usage_bytes{namespace="marek-apps", deployment=~"nginx-server-.*",container="POD"})
+      query1: absent(up{job="test"} == 1) * 1400
+      reservationLevel1: '1500.0'
+      aspirationLevel1: '200.0'
+      query2: absent(up{job="test"} == 1) * 3100
+      reservationLevel2: '300.0'
+      aspirationLevel2: '100.0'
+      query3: absent(up{job="test"} == 1) * 7.5
+      reservationLevel3: '8.0'
+      aspirationLevel3: '3.0'
+      # query4: count(container_memory_usage_bytes{namespace="marek-apps", pod=~"cpu-heavy-app-.*",container="POD"})
+      query4: absent(up{job="test"} == 1)
