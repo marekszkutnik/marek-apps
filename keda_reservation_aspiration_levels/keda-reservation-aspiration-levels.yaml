@@ -12,7 +12,7 @@ spec:
   pollingInterval:  30
   cooldownPeriod:   300
   minReplicaCount:  1
-  maxReplicaCount:  10
+  maxReplicaCount:  9
   advanced:
     restoreToOriginalReplicaCount: true
   triggers:
