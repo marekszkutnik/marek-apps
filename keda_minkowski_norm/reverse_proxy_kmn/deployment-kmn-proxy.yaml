@@ -24,6 +24,13 @@ spec:
             - name: reverse-proxy-config-kmn
               mountPath: /etc/nginx/conf.d/default.conf
               subPath: nginx.conf
+          resources:
+            requests:
+              memory: 2Gi
+              cpu: 1
+            limits:
+              memory: 2Gi
+              cpu: 1
         - name: nginx-exporter
           image: 'nginx/nginx-prometheus-exporter:0.11.0'
           ports:
@@ -32,9 +39,12 @@ spec:
             - '-nginx.plus'
             - '-nginx.scrape-uri=http://localhost/api'
           resources:
+            requests:
+              memory: 128Mi
+              cpu: 200m
             limits:
               memory: 128Mi
-              cpu: 500m
+              cpu: 200m
       volumes:
        - configMap:
             defaultMode: 420
