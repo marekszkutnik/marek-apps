@@ -11,7 +11,8 @@ data:
     upstream backend {
         zone http_backend 64k;
         
-        server nginx-srv-kmn;
+        # server nginx-srv-kmn;
+        server cpu-heavy-app-kmn:9000;
     }
     
     server {

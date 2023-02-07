@@ -11,7 +11,8 @@ data:
     upstream backend {
         zone http_backend 64k;
         
-        server nginx-srv-hpa;
+        # server nginx-srv-hpa;
+        server cpu-heavy-app-hpa:9000;
     }
     
     server {
