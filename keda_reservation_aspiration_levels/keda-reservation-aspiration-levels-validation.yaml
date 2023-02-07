@@ -29,5 +29,4 @@ spec:
       query3: absent(up{job="test"} == 1) * 7.5
       reservationLevel3: '8.0'
       aspirationLevel3: '3.0'
-      # query4: count(container_memory_usage_bytes{namespace="marek-apps", pod=~"cpu-heavy-app-.*",container="POD"})
       query4: absent(up{job="test"} == 1)

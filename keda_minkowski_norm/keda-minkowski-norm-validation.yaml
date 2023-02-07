@@ -1,0 +1,32 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: nginx-server-kmn-keda
+  namespace: marek-apps
+spec:
+  scaleTargetRef:
+    apiVersion:    apps/v1
+    kind:          Deployment
+    name:          nginx-server-kmn
+    envSourceContainerName: nginx
+  pollingInterval:  30
+  cooldownPeriod:   300
+  minReplicaCount:  2
+  maxReplicaCount:  5
+  advanced:
+    restoreToOriginalReplicaCount: true
+  triggers:
+  - type: prometheus-minkowski-norm
+    metadata:
+      serverAddress: http://prometheus-service.monitoring.svc:8080
+      metricName: prometheus-minkowski-norm-test
+      numOfParams: '1'
+      queryParam1: '5'
+      threshold1: '1'
+      query1: absent(up{job="test"} == 1) * 4
+      queryParam2: '4'
+      threshold2: '2'
+      query2: absent(up{job="test"} == 1) * 4
+      queryParam3: '1'
+      threshold3: '1'
+      query3: absent(up{job="test"} == 1) * 2
