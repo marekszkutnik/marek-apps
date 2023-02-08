@@ -22,11 +22,11 @@ spec:
       metricName: prometheus-minkowski-norm-test
       numOfParams: '1'
       queryParam1: '5'
+      query1: absent(up{job="test"} == 1) * 2
       threshold1: '1'
-      query1: absent(up{job="test"} == 1) * 4
       queryParam2: '4'
+      query2: absent(up{job="test"} == 1) * 1
       threshold2: '2'
-      query2: absent(up{job="test"} == 1) * 4
       queryParam3: '1'
-      threshold3: '1'
       query3: absent(up{job="test"} == 1) * 2
+      threshold3: '1'

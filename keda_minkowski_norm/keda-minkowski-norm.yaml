@@ -22,11 +22,11 @@ spec:
       metricName: prometheus-minkowski-norm-test
       numOfParams: '1'
       queryParam1: '5'
-      threshold1: '1'
-      query1: absent(up{job="kube-state-metrics"} == 1) * 4
+      query1: sum (rate(container_cpu_usage_seconds_total{namespace="marek-apps", deployment="cpu-heavy-app-kmn", container="cpu-heavy-app"}[30s]) * 1024) by (deployment)
+      threshold1: '1500'
       queryParam2: '4'
-      threshold2: '2'
-      query2: absent(up{job="kube-state-metrics"} == 1) * 4
+      query2: sum (container_memory_usage_bytes{namespace="marek-apps", deployment="cpu-heavy-app-kmn", container="cpu-heavy-app"} / 1024 / 1024) by (deployment)
+      threshold2: '200'
       queryParam3: '1'
-      threshold3: '1'
-      query3: absent(up{job="kube-state-metrics"} == 1) * 2
+      query3: scalar(nginxplus_upstream_server_response_time{job="reverse-proxy-kmn"})
+      threshold3: '5000'
