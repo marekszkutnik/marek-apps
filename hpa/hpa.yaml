@@ -15,11 +15,11 @@ spec:
     resource:
       name: cpu
       target:
-        type: averageValue
+        type: AverageValue
         averageValue: 1500m
   - type: Resource
     resource:
-      name: mameory
+      name: memory
       target:
-        type: averageValue
+        type: AverageValue
         averageValue: 300Mi    
