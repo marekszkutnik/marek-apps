@@ -26,7 +26,7 @@ spec:
       query2: sum (container_memory_usage_bytes{namespace="marek-apps", deployment="cpu-heavy-app-kral", container="cpu-heavy-app"} / 1024 / 1024) by (deployment)
       reservationLevel2: '400.0'
       aspirationLevel2: '100.0'
-      query3: nginxplus_upstream_server_response_time
+      query3: nginxplus_upstream_server_response_time{job="reverse-proxy-kral"}
       reservationLevel3: '8000.0'
       aspirationLevel3: '3000.0'
       query4: absent(up{job="test"} == 1)
